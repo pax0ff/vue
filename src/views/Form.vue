@@ -18,10 +18,13 @@
         To do:
         <input type="text" v-model="taskInput" placeholder="Add tasks">
       </label>
-      <button v-on:click="addTo">Add</button>
+      <button v-on:click="addTo" class="mx-3">Add task</button>
     </div>
-    <div class="d-grid">
-      <li v-for="item in tasks" :key="item.id" class="alert-danger m-1">{{item.label}}</li>
+    <p id="err" class="d-inline-flex m-5 alert-danger"></p>
+    <div class="d-lg-grid float-lg-start">
+      <ul class="d-grid">
+        <li v-for="item in tasks" :key="item.id" class="d-inline-flex float-lg-start m-1">{{item.id}}. {{item.label}}</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -33,11 +36,30 @@ export default {
   inputCheck: false,
   tasks: [],
   taskInput: '',
-
   methods: {
     addTo () {
-      this.tasks.push({id: this.tasks.length + 1 ,label: this.taskInput})
-      this.taskInput='';
+      let errElem = document.getElementById('err');
+      if(this.taskInput === '') {
+        this.error='There is no task to add. Write something';
+        errElem.innerHTML = this.error;
+        this.tasks.length=0;
+      }
+      else {
+        errElem.innerHTML=''
+        this.tasks.push({id: this.tasks.length + 1 ,label: this.taskInput})
+        this.taskInput='';
+      }
+
+    }
+  },
+  mounted() {
+    if (this.tasks > 0) {
+      localStorage.tasks.push({id: this.tasks.length + 1 ,label: this.taskInput});
+    }
+  },
+  watch: {
+    tasks(newTask) {
+      localStorage.tasks.push({id: this.tasks.length + 1 ,label: this.taskInput});
     }
   },
   data () {
@@ -45,11 +67,7 @@ export default {
       inputName: '',
       inputCheck: '',
       taskInput: '',
-      tasks: [
-        { id: 1, label: 'Task1' },
-        { id: 2, label: 'Task2' },
-        { id: 3, label: 'Task3' }
-      ]
+      tasks: []
     }
   },
   metaInfo () {

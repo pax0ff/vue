@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="large-12 medium-12 small-12 d-block">
-      <label>Alege un fisier:</label>
+      <h2 class="float-lg-start">Choose a file:</h2>
       <input type="file" accept="application/text" @change="onFileChange" class="input-group">
       <button @click="bringData">Read data</button>
     </div>
@@ -41,6 +41,7 @@ export default {
     },
     bringData () {
       let elem = document.getElementById("content")
+      setTimeout(() => { elem.innerHTML='Loading' }, 100);
       setTimeout(() => { elem.innerHTML='Loading.' }, 500);
       setTimeout(() => { elem.innerHTML='Loading..' }, 700);
       setTimeout(() => { elem.innerHTML='Loading...' }, 1200);
