@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <header class="headerform"/>
     <AppLayoutLinks/>
     <slot/>
