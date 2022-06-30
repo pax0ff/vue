@@ -42,10 +42,9 @@ export default {
     bringData () {
       let elem = document.getElementById("content")
       setTimeout(() => { elem.innerHTML='Loading.' }, 500);
-      setTimeout(() => { elem.innerHTML='Loading..' }, 1000);
-      setTimeout(() => { elem.innerHTML='Loading...' }, 1500);
+      setTimeout(() => { elem.innerHTML='Loading..' }, 700);
+      setTimeout(() => { elem.innerHTML='Loading...' }, 1200);
       setTimeout(() => { elem.innerHTML = this.text }, 2000);
-
     }
   },
   metaInfo () {
