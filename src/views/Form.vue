@@ -40,9 +40,11 @@ export default {
     addTo () {
       let errElem = document.getElementById('err');
       if(this.taskInput === '') {
-        this.error='There is no task to add. Write something';
+        this.error='Please complete the form before you add the task.';
         errElem.innerHTML = this.error;
-        this.tasks.length=0;
+        if(this.tasks.length == 0) {
+          this.tasks.length=0;
+        }
       }
       else {
         errElem.innerHTML=''
@@ -50,16 +52,6 @@ export default {
         this.taskInput='';
       }
 
-    }
-  },
-  mounted() {
-    if (this.tasks > 0) {
-      localStorage.tasks.push({id: this.tasks.length + 1 ,label: this.taskInput});
-    }
-  },
-  watch: {
-    tasks(newTask) {
-      localStorage.tasks.push({id: this.tasks.length + 1 ,label: this.taskInput});
     }
   },
   data () {
