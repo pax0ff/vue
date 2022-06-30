@@ -36,7 +36,8 @@ export default {
 
   methods: {
     addTo () {
-      this.tasks.push({id: this.tasks.length+1, label: this.taskInput})
+      this.tasks.push({id: this.tasks.length + 1 ,label: this.taskInput})
+      this.taskInput='';
     }
   },
   data () {
