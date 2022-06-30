@@ -27,18 +27,25 @@ export default {
     },
     readFile(file) {
       let reader = new FileReader()
+      let emptyFile = false
       reader.onload = e => {
         this.text = e.target.result
         let elem = document.getElementById("content")
-        if(!this.text)
-          elem.innerHTML = "Your document is empty"
-        let json = JSON.parse(this.text)
+        if(!this.text) {
+          elem.innerHTML = "Your document is empty."
+          emptyFile = true
+          setTimeout(() => { elem.innerHTML='Choose another file' }, 2000);
+        }
       };
       reader.readAsText(file)
     },
     bringData () {
       let elem = document.getElementById("content")
-      elem.innerHTML = this.text;
+      setTimeout(() => { elem.innerHTML='Loading.' }, 500);
+      setTimeout(() => { elem.innerHTML='Loading..' }, 1000);
+      setTimeout(() => { elem.innerHTML='Loading...' }, 1500);
+      setTimeout(() => { elem.innerHTML = this.text }, 2000);
+
     }
   },
   metaInfo () {
