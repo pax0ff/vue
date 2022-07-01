@@ -23,7 +23,10 @@
     <p id="err" class="d-inline-flex m-5 alert-danger"></p>
     <div class="d-lg-grid float-lg-start">
       <ul class="d-grid">
-        <li v-for="item in tasks" :key="item.id" class="d-inline-flex float-lg-start m-1">{{item.id}}. {{item.label}}</li>
+        <li v-for="item in tasks" :key="item.id" class="d-inline-flex float-lg-start m-1">{{item.id}}. {{item.label}}
+          <button @click="removeTask(item)" class="btn-close"></button>
+        </li>
+
       </ul>
     </div>
   </div>
@@ -37,12 +40,15 @@ export default {
   tasks: [],
   taskInput: '',
   methods: {
+    removeTask (taskIndex) {
+      this.tasks.splice(taskIndex,1)
+    },
     addTo () {
       let errElem = document.getElementById('err');
       if(this.taskInput === '') {
         this.error='Please complete the form before you add the task.';
         errElem.innerHTML = this.error;
-        if(this.tasks.length == 0) {
+        if(this.tasks.length === 0) {
           this.tasks.length=0;
         }
       }
@@ -51,7 +57,6 @@ export default {
         this.tasks.push({id: this.tasks.length + 1 ,label: this.taskInput})
         this.taskInput='';
       }
-
     }
   },
   data () {

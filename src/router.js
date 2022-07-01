@@ -41,6 +41,14 @@ const routes = [
     meta: {
       layout: 'AppLayoutUploadFiles'
     }
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: () => import('@/views/Cart.vue'),
+    meta: {
+      layout: 'AppLayoutCart'
+    }
   }
 ]
 const router = new VueRouter({
