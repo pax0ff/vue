@@ -41,21 +41,20 @@ export default {
   taskInput: '',
   methods: {
     removeTask (taskIndex) {
-      this.tasks.splice(taskIndex,1)
+      this.tasks.splice(taskIndex, 1)
     },
     addTo () {
-      let errElem = document.getElementById('err');
-      if(this.taskInput === '') {
-        this.error='Please complete the form before you add the task.';
-        errElem.innerHTML = this.error;
-        if(this.tasks.length === 0) {
-          this.tasks.length=0;
+      let errElem = document.getElementById('err')
+      if (this.taskInput === '') {
+        this.error = 'Please complete the form before you add the task.'
+        errElem.innerHTML = this.error
+        if (this.tasks.length === 0) {
+          this.tasks.length = 0
         }
-      }
-      else {
-        errElem.innerHTML=''
-        this.tasks.push({id: this.tasks.length + 1 ,label: this.taskInput})
-        this.taskInput='';
+      } else {
+        errElem.innerHTML = ''
+        this.tasks.push({id: this.tasks.length + 1, label: this.taskInput})
+        this.taskInput = ''
       }
     }
   },

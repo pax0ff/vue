@@ -20,32 +20,30 @@ export default {
   text: '',
   methods: {
 
-    onFileChange(e) {
+    onFileChange (e) {
       let files = e.target.files || e.dataTransfer.files
       if (!files.length) return
-       this.readFile(files[0])
+      this.readFile(files[0])
     },
-    readFile(file) {
+    readFile (file) {
       let reader = new FileReader()
-      let emptyFile = false
       reader.onload = e => {
         this.text = e.target.result
-        let elem = document.getElementById("content")
-        if(!this.text) {
-          elem.innerHTML = "Your document is empty."
-          emptyFile = true
-          setTimeout(() => { elem.innerHTML='Choose another file' }, 2000);
+        let elem = document.getElementById('content')
+        if (!this.text) {
+          elem.innerHTML = 'Your document is empty.'
+          setTimeout(() => { elem.innerHTML = 'Choose another file' }, 2000)
         }
-      };
+      }
       reader.readAsText(file)
     },
     bringData () {
-      let elem = document.getElementById("content")
-      setTimeout(() => { elem.innerHTML='Loading' }, 100);
-      setTimeout(() => { elem.innerHTML='Loading.' }, 500);
-      setTimeout(() => { elem.innerHTML='Loading..' }, 700);
-      setTimeout(() => { elem.innerHTML='Loading...' }, 1200);
-      setTimeout(() => { elem.innerHTML = this.text }, 2000);
+      let elem = document.getElementById('content')
+      setTimeout(() => { elem.innerHTML = 'Loading' }, 100)
+      setTimeout(() => { elem.innerHTML = 'Loading.' }, 500)
+      setTimeout(() => { elem.innerHTML = 'Loading..' }, 700)
+      setTimeout(() => { elem.innerHTML = 'Loading...' }, 1200)
+      setTimeout(() => { elem.innerHTML = this.text }, 2000)
     }
   },
   metaInfo () {
