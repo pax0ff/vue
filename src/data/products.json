@@ -1,4 +1,5 @@
-[{
+[
+  {
 "id": 1,
 "name": "Product 1",
 "description": "Lorem ipsum dolor asimet ipsum dolor asimet",
@@ -30,5 +31,5 @@
 "price": 25,
 "currency": "EUR",
 "stock": 10
-},
+}
 ]

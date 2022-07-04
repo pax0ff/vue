@@ -1,9 +1,11 @@
 <template>
   <div class='container'>
-    <div class="">
-      <h6 class="d-flex">Choose a file:</h6>
-      <input type="file" accept="application/text" @change="onFileChange" class="input-group">
-      <button class="btn btn-success" @click="bringData">Read data</button>
+    <div class="col-lg-6">
+      <button class="btn btn-success">Add product</button>
+<!--      <h6 class="d-flex">Choose a file:</h6>-->
+<!--      <input type="file" accept="application/text" @change="onFileChange" class="input-group" id="uploadFile">-->
+<!--      <button class="btn btn-success" @click="bringData">Read data</button>-->
+<!--      <button class="btn btn-danger" @click="clearData">Clear</button>-->
     </div>
     <div class="blockquote">
       <div class="tab-content">
@@ -49,6 +51,44 @@
         </div>
       </div>
     </div>
+    <div class='d-inline-flex col-lg-12 col-md-12 col-sm-12'>
+      <div>
+        <b-button v-b-modal.modal-prevent-closing>Open Modal</b-button>
+
+        <div class="mt-3">
+          Submitted Names:
+          <div v-if="submittedNames.length === 0">--</div>
+          <ul v-else class="mb-0 pl-3">
+            <li v-for="name in submittedNames">{{ name }}</li>
+          </ul>
+        </div>
+
+        <b-modal
+          id="modal-prevent-closing"
+          ref="modal"
+          title="Submit Your Name"
+          @show="resetModal"
+          @hidden="resetModal"
+          @ok="handleOk"
+        >
+          <form ref="form" @submit.stop.prevent="handleSubmit">
+            <b-form-group
+              label="Name"
+              label-for="name-input"
+              invalid-feedback="Name is required"
+              :state="nameState"
+            >
+              <b-form-input
+                id="name-input"
+                v-model="name"
+                :state="nameState"
+                required
+              ></b-form-input>
+            </b-form-group>
+          </form>
+        </b-modal>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -61,39 +101,40 @@ export default {
   methods: {
     data () {
       return {
-
+        name: '',
+        nameState: null,
+        submittedNames: []
+        // products: [{}]
       }
     },
     /* Methods for loading data */
 
-    onFileChange (e) {
-      let files = e.target.files || e.dataTransfer.files
-      if (!files.length) return
-      this.readFile(files[0])
-    },
-    readFile (file) {
-      let reader = new FileReader()
-      reader.onload = e => {
-        this.text = e.target.result
-        let elem = document.getElementById('content')
-        let json = JSON.parse(this.text)
-        if (!this.text) {
-          elem.innerHTML = 'Your document is empty.'
-          setTimeout(() => { elem.innerHTML = 'Choose another file' }, 2000)
-        }
-
-        console.log(json)
-      }
-      reader.readAsText(file)
-    },
-    bringData () {
-      let elem = document.getElementById('content')
-      setTimeout(() => { elem.innerHTML = 'Loading' }, 100)
-      setTimeout(() => { elem.innerHTML = 'Loading.' }, 500)
-      setTimeout(() => { elem.innerHTML = 'Loading..' }, 700)
-      setTimeout(() => { elem.innerHTML = 'Loading...' }, 1200)
-      setTimeout(() => { elem.innerHTML = this.text }, 2000)
-    },
+    // bringData () {
+    //   let elem = document.getElementById('content')
+    //   setTimeout(() => { elem.innerHTML = 'Loading' }, 100)
+    //   setTimeout(() => { elem.innerHTML = 'Loading.' }, 500)
+    //   setTimeout(() => { elem.innerHTML = 'Loading..' }, 700)
+    //   setTimeout(() => { elem.innerHTML = 'Loading...' }, 1200)
+    //   setTimeout(() => { elem.innerHTML = this.text }, 2000)
+    //   // this.products = this.textToJSON()
+    //   console.log(this.getData())
+    // },
+    // clearData () {
+    //   let elem = document.getElementById('content')
+    //   let input = document.getElementById('uploadFile')
+    //   elem.innerHTML = ''
+    //   input.value = ''
+    // },
+    // textToJSON () {
+    //   return JSON.parse(this.text)
+    // },
+    // getData () {
+    //   let parsedArr = this.textToJSON()
+    //   for (let i = 0; i < parsedArr.length; i++) {
+    //     this.products.push({id: parsedArr.id, name: parsedArr.name, description: parsedArr.description})
+    //   }
+    //   return this.products
+    // },
     /* Getters */
 
     getName (product) {
@@ -135,7 +176,33 @@ export default {
     setStock (stock) {
       this.products.stock = stock
     },
-
+    checkFormValidity () {
+      const valid = this.$refs.form.checkValidity()
+      this.nameState = valid
+      return valid
+    },
+    resetModal () {
+      this.name = ''
+      this.nameState = null
+    },
+    handleOk (bvModalEvent) {
+      // Prevent modal from closing
+      bvModalEvent.preventDefault()
+      // Trigger submit handler
+      this.handleSubmit()
+    },
+    handleSubmit () {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return
+      }
+      // Push the name to submitted names
+      this.submittedNames.push(this.name)
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide('modal-prevent-closing')
+      })
+    },
     /* Methods for cart management */
     totalCartValue (cart) {
 
